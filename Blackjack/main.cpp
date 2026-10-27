@@ -9,6 +9,64 @@ struct card {
     char suit;
 }; // card
 
+// Function declaration
+std::stack<card> initDeck();
+std::stack<card> shuffleDeck(std::stack<card> deck);
+void dealCard(std::stack<card>* deck, std::string who, int* hand);
+
+
+
+int main () {
+    std::cout << "--- Welcome to Blackjack ---\n\n";
+
+    // Start game, init deck and shuffle
+    std::stack<card> deck = initDeck();
+    deck = shuffleDeck(deck);
+
+    // variables
+    int player_hand = 0;
+    int dealer_hand = 0;
+    bool player_round_over = false;
+    bool player_won = false;
+    bool game_over = false;
+    int player_choice = 0;
+
+    // Dealer deals himself
+    dealCard(&deck, "Dealer", &dealer_hand);
+    // Deals to player
+    dealCard(&deck, "Player", &player_hand);
+    std::cout << "\n";
+    // Deals to player again
+    dealCard(&deck, "Player", &player_hand);
+
+    while (!player_round_over && !game_over) {
+        std::cout << "Player Total: " << player_hand << "\n";
+        
+        if (player_hand == 21) {
+            player_won = true;
+            break;
+        }
+        else if (player_hand > 21) {
+            player_won = false;
+            game_over = true;
+            break;
+        }
+
+        std::cout << "Press 1 to HIT and 0 to Stay!!! \n";
+        std::cin >> player_choice;
+
+        if (player_choice == 1) {
+            dealCard(&deck, "Player", &player_hand);  
+        }
+        else {player_round_over = true;}
+    }
+
+    // checking if player lost
+
+    return 0;
+}
+
+// Functions
 // Make the DECK
 std::stack<card> initDeck() {
     std::string suits = "DSCH";
@@ -20,8 +78,8 @@ std::stack<card> initDeck() {
     for (auto s : suits) {
         for (int i = 1; i <=13; i++) {
             temp_card.suit = s;
-            temp_card.value = i;
-
+            // Making sure King, Queen and Jack all have same value
+            (i > 10) ? temp_card.value = 10 : temp_card.value = i;
             deck.push(temp_card);
         }
     }
@@ -56,64 +114,8 @@ std::stack<card> shuffleDeck(std::stack<card> deck) {
     return deck;
 }
 
-
-
-int main () {
-    std::cout << "--- Welcome to Blackjack ---\n\n";
-
-    // Start game, init deck and shuffle
-    std::stack<card> deck = initDeck();
-    deck = shuffleDeck(deck);
-
-    // variables
-    int player_hand = 0;
-    int dealer_hand = 0;
-    bool player_round_over = false;
-    bool player_won = false;
-    bool game_over = false;
-    int player_choice = 0;
-
-    // Dealer deals himself
-    std::cout << "Dealer deals a: " << deck.top().suit << deck.top().value << "\n";
-    dealer_hand += deck.top().value;
-    deck.pop();
-
-    // Deals to player
-    std::cout << "Player deals a: " << deck.top().suit << deck.top().value << "\n";
-    player_hand += deck.top().value;
-    deck.pop();
-
-    std::cout << "\n";
-
-    std::cout << "Player deals a: " << deck.top().suit << deck.top().value << "\n";
-    player_hand += deck.top().value;
-    deck.pop();
-
-    while (!player_round_over && !game_over) {
-        std::cout << "Player Total: " << player_hand << "\n";
-        
-        if (player_hand == 21) {
-            player_won = true;
-            player_round_over = true;
-        }
-        else if (player_hand > 21) {
-            player_won = false;
-            game_over = true;
-            continue;
-        }
-
-        std::cout << "Press 1 to HIT and 0 to Stay!!! \n";
-        std::cin >> player_choice;
-
-        if (player_choice == 1) {
-            std::cout << "Player deals a: " << deck.top().suit << deck.top().value << "\n";
-            player_hand += deck.top().value;
-            deck.pop();
-        }
-        else {player_round_over = true;}
-    }
-
-    // checking if player lost
-
-    return 0;
+void dealCard(std::stack<card>* deck, std::string who, int* hand) {
+    std::cout << who << " deals a: " << deck->top().suit << deck->top().value << "\n";
+    *hand += deck->top().value;
+    deck->pop();
 }
