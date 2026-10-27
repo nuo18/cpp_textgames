@@ -1,0 +1,29 @@
+[ ] Day 1: CLI Number Guesser / Rock Paper Scissors (Variables, Loops, Control Flow)
+
+    [ ] Day 2: CLI Hangman (Arrays, Vectors, Strings)
+
+    [ ] Day 3: CLI Blackjack (Classes, Objects, OOP structure)
+
+    [ ] Day 4: Custom Dynamic Array (Raw Pointers, Stack vs Heap, new/delete)
+
+    [ ] Day 5: CLI Task Manager with File I/O (fstream reading/saving to .txt)
+
+    [ ] Day 6: Linked List from scratch (Node structs, pointer linking)
+
+    [ ] Day 7: Binary Search Tree from scratch (Insert, Search, Traversals)
+
+Week 2: Systems, Concurrency, and Architecture
+
+    [ ] Day 8: Refactor Blackjack or Task Manager (Replace raw pointers with std::unique_ptr / std::shared_ptr)
+
+    [ ] Day 9: Algorithmic Benchmarker (Implement Bubble, Insertion, Quicksort; time them with <chrono>)
+
+    [ ] Day 10: Simulated Multi-threaded Web Scraper (std::thread, std::mutex)
+
+    [ ] Day 11: CLI Chat Server/Client (POSIX Sockets, TCP connections)
+
+    [ ] Day 12: Hex Viewer (Read binaries, output raw hex and ASCII)
+
+    [ ] Day 13: CLI Text Editor (Read file, append lines, save)
+
+    [ ] Day 14: Weakness Review & Edabit targeting (Prep for the 2-month phase)
