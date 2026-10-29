@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <vector>
 #include <algorithm>
 #include <random>
 
@@ -12,7 +13,7 @@ struct card {
 // Function declaration
 std::stack<card> initDeck();
 std::stack<card> shuffleDeck(std::stack<card> deck);
-void dealCard(std::stack<card>* deck, std::string who, int* hand);
+void dealCard(std::stack<card>& deck, std::string who, int& hand);
 
 
 
@@ -32,12 +33,12 @@ int main () {
     int player_choice = 0;
 
     // Dealer deals himself
-    dealCard(&deck, "Dealer", &dealer_hand);
+    dealCard(deck, "Dealer", dealer_hand);
     // Deals to player
-    dealCard(&deck, "Player", &player_hand);
+    dealCard(deck, "Player", player_hand);
     std::cout << "\n";
     // Deals to player again
-    dealCard(&deck, "Player", &player_hand);
+    dealCard(deck, "Player", player_hand);
 
     while (!player_round_over && !game_over) {
         std::cout << "Player Total: " << player_hand << "\n";
@@ -47,7 +48,6 @@ int main () {
             break;
         }
         else if (player_hand > 21) {
-            player_won = false;
             game_over = true;
             break;
         }
@@ -56,12 +56,50 @@ int main () {
         std::cin >> player_choice;
 
         if (player_choice == 1) {
-            dealCard(&deck, "Player", &player_hand);  
+            dealCard(deck, "Player", player_hand);  
         }
         else {player_round_over = true;}
     }
 
     // checking if player lost
+    if (player_won == true) {
+        std::cout << "\n YOU WON!!!";
+        game_over = true;
+    }
+    else if (game_over == true) {
+        std::cout << "\n YOU LOST!!!";
+    }
+
+    // game continue
+    while(!game_over) {
+
+        dealCard(deck, "Dealer", dealer_hand);
+        std::cout << "\n Dealer Total: " << dealer_hand << std::endl;
+
+        if (dealer_hand > 21) {
+            game_over = true;
+            std::cout << "\nYOU WON, DEALER LOST!!!";
+        }
+        else if (dealer_hand < 21 && dealer_hand > player_hand) {
+            game_over = true;
+            std::cout << "\nYOU LOST< DEALER WON!!!";
+        }
+        else if (dealer_hand < 17) {
+            continue;
+        }
+        else if (dealer_hand > 17 && dealer_hand < 21) {
+            game_over = true;
+            std::cout << "\nYOU WON!!! DEALER LOST";
+        }
+        else if (dealer_hand == 21) {
+            game_over = true;
+            std::cout << "\nYOU LOST!!! DEAR WON!!!";
+        }
+    }
+
+    // BYE BYE
+    std::cout << "\n\n BYE BYE BYE BYE, THANKS FOR PLAYING!!!" << std::endl;
+
 
     return 0;
 }
@@ -114,8 +152,8 @@ std::stack<card> shuffleDeck(std::stack<card> deck) {
     return deck;
 }
 
-void dealCard(std::stack<card>* deck, std::string who, int* hand) {
-    std::cout << who << " deals a: " << deck->top().suit << deck->top().value << "\n";
-    *hand += deck->top().value;
-    deck->pop();
-}
+void dealCard(std::stack<card>& deck, std::string who, int& hand) {
+    std::cout << who << " deals a: " << deck.top().suit << deck.top().value << "\n";
+    hand += deck.top().value;
+    deck.pop();
+}   
